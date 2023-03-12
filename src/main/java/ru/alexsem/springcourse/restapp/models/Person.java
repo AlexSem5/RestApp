@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
  * Аннотацией @Entity помечаем класс, который связан с бд. Hibernate воспринимает этот класс
  * как СУЩНОСТЬ
  *
- * Класс с @Entity должен иметь пустой конструктор и поле с аннотацией @Id
+ * Класс с @Entity должен иметь пустой конструктор и поле с аннотацией @Id.
+ * Класс с пустым конструктором соответствует требованиям спецификации JPA для Entity
  * <p>
  * Требования к Entity:
  * <p>
@@ -43,7 +44,7 @@ public class Person {
     private int age;
     
     @Column(name = "email")
-    @Email
+    @Email(message = "Email should be valid")
     @NotEmpty(message = "Name should not be empty")
     private String email;
     

@@ -13,6 +13,7 @@ import ru.alexsem.springcourse.restapp.services.PeopleService;
 import ru.alexsem.springcourse.restapp.util.PersonErrorResponse;
 import ru.alexsem.springcourse.restapp.util.PersonNotCreatedException;
 import ru.alexsem.springcourse.restapp.util.PersonNotFoundException;
+import ru.alexsem.springcourse.restapp.util.PersonValidator;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -41,11 +42,13 @@ public class PeopleController {
     
 //    Создаём Bean в конфиг файле и внедряем с помощью Spring:
     private final ModelMapper modelMapper;
+    private final PersonValidator personValidator;
     
     @Autowired
-    public PeopleController(PeopleService peopleService, ModelMapper modelMapper) {
+    public PeopleController(PeopleService peopleService, ModelMapper modelMapper, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.modelMapper = modelMapper;
+        this.personValidator = personValidator;
     }
     /**
      * Отправляем клиенту список PersonDTO
@@ -82,10 +85,13 @@ public class PeopleController {
      * @Valid - Проверяет данные, которые приходят от клиента в формате JSON на соответствие
      * условиям (аннотациям) в классе Person. Если появляется ошибка, то её кладём в bindingResult.
      * (Проверку осуществляет Hibernate Validator)
+     *
+     * Также в bindingResult попадают ошибки из метода validate класса PersonValidator
      */
     @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO,
                                              BindingResult bindingResult) {
+        personValidator.validate(personDTO,bindingResult);
         if (bindingResult.hasErrors()) {
             StringBuilder errorMSG = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();

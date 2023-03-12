@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.alexsem.springcourse.restapp.models.Person;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Указываем класс Person и тип id (Integer).
  * Тип Id используется в методах репозитория.
@@ -14,7 +17,14 @@ import ru.alexsem.springcourse.restapp.models.Person;
  *  DAO - для более сложных манипуляций с данными и БД, где нужно
  *  вручную писать SQL/HQL, нестандартные запросы.
  *
+ *  Ссылка на документацию по Spring Data JPA:
+ *  https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
+ *
  */
 @Repository
 public interface PeopleRepository extends JpaRepository<Person, Integer> {
+
+//    Может возвращать и List<Person> тоже (см документацию)
+//    После By пишем имя поля
+    Optional<Person> findByEmail(String email);
 }
