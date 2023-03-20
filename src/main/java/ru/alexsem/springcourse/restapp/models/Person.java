@@ -1,5 +1,9 @@
 package ru.alexsem.springcourse.restapp.models;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -10,10 +14,17 @@ import java.time.LocalDateTime;
 
 /**
  * Аннотацией @Entity помечаем класс, который связан с бд. Hibernate воспринимает этот класс
- * как СУЩНОСТЬ
+ * как СУЩНОСТЬ (JPA entity)
+ *
+ * Это к DTO: Jackson использует геттеры и сеттеры, когда он преобразовывает JSON
+ * в объект и наоборот
  *
  * Класс с @Entity должен иметь пустой конструктор и поле с аннотацией @Id.
- * Класс с пустым конструктором соответствует требованиям спецификации JPA для Entity
+ *
+ * All persistent classes must have a default constructor (which can be non-public)
+ * so that Hibernate can instantiate them using Constructor.newInstance().
+ * It is recommended that you have a default constructor with at least package visibility
+ * for runtime proxy generation in Hibernate.
  * <p>
  * Требования к Entity:
  * <p>
@@ -27,6 +38,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Person")
+//@ToString
+//@NoArgsConstructor
 public class Person {
     @Id
     @Column(name = "id")

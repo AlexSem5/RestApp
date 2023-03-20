@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ *
+ * Data access layer
+ *
  * Указываем класс Person и тип id (Integer).
  * Тип Id используется в методах репозитория.
  *
